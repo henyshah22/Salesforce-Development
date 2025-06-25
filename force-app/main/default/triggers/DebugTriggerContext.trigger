@@ -1,5 +1,4 @@
 trigger DebugTriggerContext on Account (before insert, before update, after insert, after update, before delete, after delete, after undelete) {
-    
     System.debug('Trigger Context Variables');
     System.debug('Trigger.isInsert: ' + Trigger.isInsert);
     System.debug('Trigger.isUpdate: ' + Trigger.isUpdate);
@@ -12,6 +11,5 @@ trigger DebugTriggerContext on Account (before insert, before update, after inse
     System.debug('Trigger.old: ' + Trigger.old);
     System.debug('Trigger.oldMap: ' + Trigger.oldMap);
     System.debug('Trigger.size: ' + Trigger.size);
-
     System.debug('----');
 }
