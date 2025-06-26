@@ -29,8 +29,5 @@ trigger UpdateContactsWithAccountName on Contact (after update) {
             contactsToUpdate.add(related);
         }
     }
-
-    if (!contactsToUpdate.isEmpty()) {
         update contactsToUpdate;
-    }
 }

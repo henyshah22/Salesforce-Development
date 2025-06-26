@@ -1,29 +1,34 @@
 trigger SendEmailAccountNameChanged on Account (after update) {
-    if (Trigger.isAfter && Trigger.isUpdate) {
-        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-        Set<Id> accountIds = new Set<Id>();
-
-        for (Account acc : Trigger.new) {
-            if (acc.Name != Trigger.oldMap.get(acc.Id).Name) {
-                accountIds.add(acc.Id);
+    if(Trigger.isAfter && Trigger.isUpdate){
+        List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
+        Set<Id> setAccountIds = new Set<Id>();
+        List<String> sendTo = new List<String>();
+        for(Account acc : trigger.New){
+            if(acc.Name != trigger.oldmap.get(acc.Id).Name){
+                setAccountIds.add(acc.Id);
+                System.debug('setAccountIds:' + setAccountIds);
             }
         }
-
-        if (!accountIds.isEmpty()) {
-            List<Contact> contacts = [SELECT Id, Email, Account.Name FROM Contact WHERE AccountId IN :accountIds];
-
-            for (Contact con : contacts) {
-                if (con.Email != null) {
-                    Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-                    mail.setSubject('Account Name Changed - ' + con.Account.Name);
-                    mail.setPlainTextBody('The name of your related account, ' + con.Account.Name + ', has been changed.');
-                    mail.setToAddresses(new List<String>{con.Email});
-                    emails.add(mail);
+        if(setAccountIds.size() > 0) {
+            for(Contact c : [SELECT lastname,Email FROM Contact WHERE AccountId IN:setAccountIds]){
+                if(string.IsNotBlank(c.Email)){
+                    sendTo.add(c.Email);
                 }
             }
-
-            if (!emails.isEmpty()) {
-                Messaging.sendEmail(emails);
+        }
+        if(sendTo.size() > 0){
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            mail.setSenderDisplayName('Email Alert');
+            mail.setSubject('Account Name changed');
+            String body = 'Account Name is changed';
+            mail.setToAddresses(sendTo);
+            mail.setHtmlBody(body);
+            mails.add(mail);
+            try{
+                Messaging.SendEmail(mails);
+            }
+            catch(Exception e){
+                System.debug('-----Exception------' +e);        
             }
         }
     }

@@ -7,12 +7,9 @@ trigger RecordShare on Account(after update) {
              share.UserOrGroupID = '005gK000003ETQDQA4';
              share.AccountId = acc.Id;
              share.AccountAccessLevel = 'Read';
-             share.OpportunityAccessLevel = 'Read';
              share.RowCause = Schema.AccountShare.RowCause.Manual;
              shareList.add(share);
         }
     }
-    if (!shareList.isEmpty()) {
         insert shareList;
-    }
 }

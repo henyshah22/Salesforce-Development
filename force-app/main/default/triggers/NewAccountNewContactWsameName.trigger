@@ -1,14 +1,10 @@
 trigger NewAccountNewContactWsameName on Account (after insert) {
-    List<Contact> contactsToInsert = new List<Contact>();
-
-    for (Account acc : Trigger.new) {
-        Contact con = new Contact();
-        con.LastName = acc.Name;
-        con.AccountId = acc.Id; 
-        contactsToInsert.add(con);
-    }
-
-    if (!contactsToInsert.isEmpty()) {
-        insert contactsToInsert;
+    if(Trigger.isAfter && Trigger.isInsert) {
+        List<Contact> contacts = new List<Contact>();
+        for(Account account : Trigger.new) {
+            Contact newContact = new Contact(LastName=account.Name, AccountId=account.Id);
+            contacts.add(newContact);
+        }
+        insert contacts;
     }
 }

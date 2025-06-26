@@ -5,16 +5,14 @@ trigger CreateTaskForOwner on Opportunity (after update) {
         if (opp.Name != oldOpp.Name) {
             Task newTask = new Task();
             newTask.Subject = 'Opportunity Name Changed';
+            newTask.Description= 'This Opportunity\'s name has changed to ' + opp.Name;
             newTask.WhatId = opp.Id;
             newTask.OwnerId = opp.OwnerId;
             newTask.Priority = 'High';
             newTask.Status = 'Not Started';
             newTask.ActivityDate = Date.today();
-            newTask.Description = 'Opportunity Name was changed from "' + oldOpp.Name + '" to "' + opp.Name + '".';
             tasks.add(newTask);
         }
     }
-    if (tasks.size() > 0) {
         insert tasks;
-    }
 }

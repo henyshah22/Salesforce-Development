@@ -3,8 +3,6 @@ trigger DeleteDuplicateAccounts on Account (before insert) {
     for (Account acc : Trigger.new) {
         accountNames.add(acc.Name);
     }
-    List<Account> accountsToDelete = [SELECT Id FROM Account WHERE Name IN :accountNames];
-    if (!accountsToDelete.isEmpty()) {
-        delete accountsToDelete;
-    }
+    List<Account> accountsDelete = [SELECT Id FROM Account WHERE Name IN :accountNames];
+        delete accountsDelete;
 }
