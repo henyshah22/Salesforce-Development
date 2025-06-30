@@ -1,9 +1,18 @@
 trigger TheGreatProblem on Contact (before insert, before update, after insert, after update, after delete) {
     List<Contact> newContacts = new List<Contact>();
     if (Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate)) {
+        Set<Id> accountIds = new Set<Id>();
         for (Contact c : Trigger.new) {
             if (c.AccountId != null && c.Great_Problem_Amount__c != null) {
-                Account acc = [SELECT Id, Max_Amount__c FROM Account WHERE Id = :c.AccountId];
+                accountIds.add(c.AccountId);
+            }
+        }
+        Map<Id, Account> accMap = new Map<Id, Account>(
+            [SELECT Id, Max_Amount__c FROM Account WHERE Id IN :accountIds]
+        );
+        for (Contact c : Trigger.new) {
+            if (c.AccountId != null && c.Great_Problem_Amount__c != null) {
+                Account acc = accMap.get(c.AccountId);
                 if (acc != null && acc.Max_Amount__c != null) {
                     Decimal maxAllowed = acc.Max_Amount__c;
                     System.debug('maxAllowed: ' + maxAllowed);
