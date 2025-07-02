@@ -6,22 +6,19 @@ global class BatchUpdateAccountWithOppName implements Database.Batchable<sObject
             WHERE AccountId != NULL
         ]);
     }
-    global void execute(Database.BatchableContext bc, List<Opportunity> oppList) {
-        Map<Id, String> accountIdToOppName = new Map<Id, String>();
-
-        for (Opportunity opp : oppList) {
-            accountIdToOppName.put(opp.AccountId, opp.Name);
+    global void execute(Database.BatchableContext bc, List<Opportunity> opportunityList) {
+        Map<Id, String> accountToOppName = new Map<Id, String>();
+        for (Opportunity opp : opportunityList) {
+            accountToOppName.put(opp.AccountId, opp.Name);
         }
-        List<Account> accountsToUpdate = new List<Account>();
-        for (Id accId : accountIdToOppName.keySet()) {
-            accountsToUpdate.add(new Account(
-                Id = accId,
-                Name = accountIdToOppName.get(accId)
-            ));
+        List<Account> accountListToUpdate = new List<Account>();
+        for(Id accId : accountToOppName.keySet()) {
+            Account acc = new Account();
+            acc.Id = accId;
+            acc.Name = accountToOppName.get(accId);
+            accountListToUpdate.add(acc);
         }
-        if (!accountsToUpdate.isEmpty()) {
-            update accountsToUpdate;
-        }
+            update accountListToUpdate;
     }
     global void finish(Database.BatchableContext bc) {
     }
