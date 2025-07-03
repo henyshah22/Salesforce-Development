@@ -6,4 +6,7 @@ global class ScheduleWeekly2dUpdateRatingWarm implements Schedulable{
         }
             update accList;
     }
+    public static void scheduleJob(){
+        System.schedule('Rating Updated to Warm', '0 0 12 ? * MON,FRI *', new ScheduleWeekly2dUpdateRatingWarm());
+    }
 }

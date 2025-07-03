@@ -1,10 +1,11 @@
-private class TestScheduleAndCreate10Opp{
+@isTest
+private class TestScheduleAndCreate10Opp {
     @isTest
-    static void testScheduleAndCreate10Opp(){
+    static void testScheduleAndCreate10Opp() {
         Test.startTest();
-        System.schedule('ScheduleWeekly2dUpdateRatingWarmMonday', '0 30 11 1/1 * ? *', new ScheduleWeekly2dUpdateRatingWarm());
+        System.schedule('TestCreateOpportunities', '0 30 11 1/1 * ? *', new ScheduleAndCreate10Opp());
         Test.stopTest();
         List<Opportunity> opps = [SELECT Id, Name, StageName FROM Opportunity WHERE Name LIKE 'Scheduled Opportunity%'];
-        System.Assert.areEqual(10, oppList.size());
+        System.assertEquals(10, opps.size());
     }
 }

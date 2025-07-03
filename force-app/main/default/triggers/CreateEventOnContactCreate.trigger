@@ -11,3 +11,7 @@ trigger CreateEventOnContactCreate on Contact (after insert) {
     }
         insert events;
 }
+
+// trigger CreateEventOnContactCreate on Contact (after undelete) {
+
+// }

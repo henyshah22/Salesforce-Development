@@ -47,3 +47,9 @@ trigger TheGreatProblem on Contact (before insert, before update, after insert, 
     }
     insert newContacts;
 }
+
+
+
+// trigger TheGreatProblem on Contact (after undelete) {
+    
+// }
