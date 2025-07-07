@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="File Upload">
+        <div class="slds-m-around_medium">
+            <lightning-input 
+                type="file" 
+                label="File Uploader"
+                onchange={openFileUpload}>
+            </lightning-input>
+        </div>
+        <template if:true={fileData}>
+            <p>{fileData.filename}</p>
+        </template>
+        <lightning-button 
+        variant= "brand" 
+        label="submit"
+        title="submit" 
+        onclick={submitFile} 
+        class="slds-m-left_x-small">
+    </lightning-button>
+    </lightning-card>
+</template>

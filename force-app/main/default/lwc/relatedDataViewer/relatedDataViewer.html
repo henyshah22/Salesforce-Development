@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Related Records">
+        <template if:true={accountId}>
+            <div class="slds-m-top_medium">
+                <strong>Contacts:</strong>
+                <template if:true={contacts}>
+                    <ul>
+                        <template for:each={contacts} for:item="contact">
+                            <li key={contact.Id}>{contact.Name}</li>
+                        </template>
+                    </ul>
+                </template>
+            </div>
+            <div class="slds-m-top_medium">
+                <strong>Opportunities:</strong>
+                <template if:true={opportunities}>
+                    <ul>
+                        <template for:each={opportunities} for:item="opp">
+                            <li key={opp.Id}>{opp.Name}</li>
+                        </template>
+                    </ul>
+                </template>
+            </div>
+        </template>
+        <template if:false={accountId}>
+            <p>select an account</p>
+        </template>
+    </lightning-card>
+</template>

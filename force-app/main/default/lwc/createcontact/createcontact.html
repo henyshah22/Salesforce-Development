@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Success variant">
+        <lightning-record-edit-form object-api-name="Account">
+        <div class="slds-box slds-theme_default">
+        <lightning-input-field field-name="Name"></lightning-input-field>
+        <lightning-input-field field-name="Phone" ></lightning-input-field>
+        <lightning-input-field field-name="Industry" ></lightning-input-field>
+        <lightning-input-field field-name="Website" ></lightning-input-field>
+        </div>
+        <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave}></lightning-button>
+        </lightning-record-edit-form>
+    </lightning-card>
+</template>

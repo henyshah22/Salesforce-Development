@@ -34,6 +34,15 @@
 
 
 
-trigger UpdateContactsWithAccountName on Contact (after undelete) {
-    
+trigger UpdateContactsWithAccountName on Contact (after undelete) {    
 }
+
+// trigger UpdateContactsWithAccountName on Contact (after update) {
+//     UpdateContactsWithAccountNameHandler handler = new UpdateContactsWithAccountNameHandler(
+//         Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.isInsert, Trigger.isUpdate, Trigger.isDelete
+//     );
+
+//     if (Trigger.isAfter && Trigger.isUpdate) {
+//         handler.handleAfterUpdate();
+//     }
+// }
