@@ -1,16 +1,17 @@
 public with sharing class AccountHelper {
 
     @AuraEnabled(cacheable=true)
+    // allows LWC to call this method using @wire 
     public static List<Account> getAccounts() {
-        return [SELECT Id, Name FROM Account LIMIT 100];
+        return [SELECT Id, Name FROM Account];
     }
 
     @AuraEnabled
     public static Map<String, Object> getRelatedData(Id accountId) {
         Map<String, Object> result = new Map<String, Object>();
 
-        List<Contact> contacts = [SELECT Id, Name, Email FROM Contact WHERE AccountId = :accountId];
-        List<Opportunity> opportunities = [SELECT Id, Name, StageName FROM Opportunity WHERE AccountId = :accountId];
+        List<Contact> contacts = [SELECT Id, Name FROM Contact WHERE AccountId = :accountId];
+        List<Opportunity> opportunities = [SELECT Id, Name FROM Opportunity WHERE AccountId = :accountId];
 
         result.put('contacts', contacts);
         result.put('opportunities', opportunities);

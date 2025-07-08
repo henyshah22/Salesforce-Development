@@ -1,0 +1,39 @@
+<template>
+  <lightning-card title={relatedListTitle}>
+    <div class="slds-grid slds-wrap slds-p-around_medium">
+      <template if:true={results}>
+        <template for:each={results} for:item="file">
+          <div class="slds-col slds-size_1-of-2 slds-p-around_medium" key={file.fileId}>
+            <div style="width:14rem">
+              <div class="slds-file slds-file_card slds-has-title">
+                <figure>
+                  <a href={file.viewUrl} class="slds-file__crop" target="_blank">
+                    <img src={file.thumbnailPath} alt={file.fileName} />
+                  </a>
+                  <figcaption class="slds-file__title slds-file__title_card">
+                    <div class="slds-media__body">
+                      <p class="slds-truncate">
+                        <lightning-formatted-url value={file.downloadUrl}
+                                                 tooltip={file.filePath}
+                                                 label={file.fileName}
+                                                 target="_blank">
+                        </lightning-formatted-url>
+                      </p>
+                      <p>{file.fileDate} . {file.fileSize} . {file.fileExtn}</p>
+                    </div>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </template>
+      </template>
+    </div>
+
+    <div class="slds-p-around_medium slds-align_absolute-center">
+      <lightning-button variant="neutral" label="Previous" onclick={handlePrevious} disabled={isPreviousDisabled}></lightning-button>
+      <span class="slds-m-horizontal_medium">Page {currentPage} of {totalPages}</span>
+      <lightning-button variant="neutral" label="Next" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
+    </div>
+  </lightning-card>
+</template>

@@ -1,0 +1,12 @@
+<template>
+    <div class="slds-p-around_medium">
+        <lightning-file-upload
+            label="Upload File"
+            name="fileUploader"
+            accept={acceptedFormats}
+            record-id={recordId}
+            onuploadfinished={handleUploadFinished}
+            multiple>
+        </lightning-file-upload>
+      </div>
+</template>
