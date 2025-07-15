@@ -1,0 +1,98 @@
+<template>
+    <template if:true={showSection1}>
+        <p style="font-weight: bold;">Select Object</p>
+        <lightning-combobox
+            name="objectSelector"
+            value={selectedObject}
+            placeholder="Select an Object"
+            options={objectOptions}
+            style="margin-bottom: 16px; margin-top: -16px"
+            onchange={handleObjectChange}>
+        </lightning-combobox>
+
+        <template if:true={records}>
+            <template for:each={records} for:item="rec">
+                <div key={rec.Id}>  
+                    <lightning-input
+                        type="checkbox"
+                        label={rec.Name}
+                        checked={rec.checked}
+                        data-id={rec.Id}
+                        onchange={handleCheckboxChange}>
+                    </lightning-input>
+                </div>
+            </template>
+        </template>
+        <lightning-button label="Next" onclick={handleNextSection1}></lightning-button>
+    </template>
+
+    <template if:true={showSection2}>
+        <p style="font-weight: bold;">To</p>
+        <lightning-input
+            type="text"
+            value={toNames}
+            style="margin-bottom: 16px; margin-top: -16px;"
+            disabled>
+        </lightning-input>
+
+        <p style="font-weight: bold;">Subject</p>
+        <lightning-input
+            type="text"
+            value={emailSubject}
+            style="margin-bottom: 16px; margin-top: -16px;"
+            onchange={handleSubjectChange}>
+        </lightning-input>
+
+        <p style="font-weight: bold;">Body</p>
+        <lightning-input-rich-text
+            value={emailBody}
+            style="margin-bottom: 16px;"
+            onchange={handleEmailChange}>
+        </lightning-input-rich-text>
+
+        <lightning-button 
+            label="Previous" 
+            onclick={handlePreviousSection2}>
+        </lightning-button>
+        &nbsp;&nbsp;
+        <lightning-button 
+            label="Preview"
+            onclick={handleNextSection2}>
+        </lightning-button>
+    </template>
+
+    <template if:true={showSection3}>
+        <!-- <p style="font-weight: bold; font-size: 16px; margin-bottom: 12px;">Preview</p> -->
+        <div style="border: 2px solid #ddd; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+            <p style="font-weight: bold; margin-bottom: 4px;">To:</p>
+            <!-- <div>{toNames}</div> -->
+            <lightning-input
+                value={toNames}
+                style="margin-top: -20px;"
+                disabled>
+            </lightning-input>
+            
+            <p style="font-weight: bold;">Subject:</p>
+            <div>{emailSubject}</div>
+            <!-- <lightning-input
+                value={emailSubject}
+                style="margin-top: -20px;"
+                disabled>
+            </lightning-input> -->
+            
+            <p style="font-weight: bold;">Body:</p>
+            <lightning-formatted-rich-text
+                value={emailBody}>
+            </lightning-formatted-rich-text>
+        </div>
+            <lightning-button 
+                label="Previous" 
+                onclick={handlePreviousSection3}>
+            </lightning-button>
+        &nbsp;&nbsp;
+        <lightning-button 
+            label="Send Email" 
+            onclick={handleSend}>
+        </lightning-button>
+    </template>
+</template>
