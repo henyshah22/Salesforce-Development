@@ -10,20 +10,64 @@
             onchange={handleObjectChange}>
         </lightning-combobox>
 
-        <template if:true={records}>
-            <template for:each={records} for:item="rec">
-                <div key={rec.Id}>  
-                    <lightning-input
-                        type="checkbox"
-                        label={rec.Name}
-                        checked={rec.checked}
-                        data-id={rec.Id}
-                        onchange={handleCheckboxChange}>
-                    </lightning-input>
+        <template if:true={hasRecords}>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width: 100%; margin: 0 auto;">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th scope="col" style="width: 50%;">
+                            <div class="slds-truncate" title="Select">Select</div>
+                        </th>
+                        <th scope="col" style="width: 50%;">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={paginatedRecords} for:item="rec">
+                        <tr key={rec.Id}>
+                            <td>
+                                <lightning-input
+                                    type="checkbox"
+                                    checked={rec.checked}
+                                    data-id={rec.Id}
+                                    onchange={handleCheckboxChange}>
+                                </lightning-input>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">{rec.Name}</div>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" style="text-align: center; padding: 8px;">
+                            <lightning-button
+                                label="Previous"
+                                onclick={handlePreviousPage}
+                                disabled={isPreviousDisabled}
+                                variant="neutral"
+                                class="slds-m-right_x-small">
+                            </lightning-button>
+                            <span>Page {currentPage} of {totalPages}</span>
+                            <lightning-button
+                                label="Next"
+                                onclick={handleNextPage}
+                                disabled={isNextDisabled}
+                                variant="neutral"
+                                class="slds-m-left_x-small">
+                            </lightning-button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <template if:true={isAnyRecordSelected}>
+                <div class="slds-m-top_medium" style="text-align: center;">
+                    <lightning-button label="Next" variant="brand" onclick={handleNextSection1}></lightning-button>
                 </div>
             </template>
         </template>
-        <lightning-button label="Next" onclick={handleNextSection1}></lightning-button>
     </template>
 
     <template if:true={showSection2}>
@@ -50,49 +94,62 @@
             onchange={handleEmailChange}>
         </lightning-input-rich-text>
 
-        <lightning-button 
-            label="Previous" 
-            onclick={handlePreviousSection2}>
-        </lightning-button>
-        &nbsp;&nbsp;
-        <lightning-button 
-            label="Preview"
-            onclick={handleNextSection2}>
-        </lightning-button>
+        <div style = "text-align: center;">
+            <lightning-button 
+                label="Previous" 
+                onclick={handlePreviousSection2}>
+            </lightning-button>
+                &nbsp;&nbsp;
+            <lightning-button 
+                label="Preview"
+                variant="brand"
+                onclick={handleNextSection2}>
+            </lightning-button>
+        </div>
     </template>
 
     <template if:true={showSection3}>
-        <!-- <p style="font-weight: bold; font-size: 16px; margin-bottom: 12px;">Preview</p> -->
-        <div style="border: 2px solid #ddd; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+        <div style="
+            background: white; 
+            padding: 24px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+            max-width: 1500px; 
+            margin: 0 auto 24px auto;">
+            
             <p style="font-weight: bold; margin-bottom: 4px;">To:</p>
-            <!-- <div>{toNames}</div> -->
             <lightning-input
                 value={toNames}
-                style="margin-top: -20px;"
+                style="margin-top: -12px; margin-bottom: 16px;"
                 disabled>
             </lightning-input>
             
-            <p style="font-weight: bold;">Subject:</p>
-            <div>{emailSubject}</div>
-            <!-- <lightning-input
-                value={emailSubject}
-                style="margin-top: -20px;"
-                disabled>
-            </lightning-input> -->
+            <p style="font-weight: bold; margin-bottom: 4px;">Subject:</p>
+            <div style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 16px;">
+                {emailSubject}
+            </div>
             
-            <p style="font-weight: bold;">Body:</p>
-            <lightning-formatted-rich-text
-                value={emailBody}>
-            </lightning-formatted-rich-text>
+            <p style="font-weight: bold; margin-bottom: 4px;">Body:</p>
+            <div style="border: 1px solid #ddd; border-radius: 4px; padding: 12px;">
+                <lightning-formatted-rich-text
+                    value={emailBody}>
+                </lightning-formatted-rich-text>
+            </div>
         </div>
+
+        <div style="text-align: center;">
             <lightning-button 
                 label="Previous" 
-                onclick={handlePreviousSection3}>
+                onclick={handlePreviousSection3}
+                class="slds-m-right_small">
             </lightning-button>
-        &nbsp;&nbsp;
-        <lightning-button 
-            label="Send Email" 
-            onclick={handleSend}>
-        </lightning-button>
+
+            <lightning-button 
+                label="Send Email" 
+                onclick={handleSend}
+                variant="brand">
+            </lightning-button>
+        </div>
     </template>
+
 </template>
