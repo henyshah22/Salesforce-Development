@@ -1,0 +1,74 @@
+<aura:component controller="AccountDataController"
+                implements="force:appHostable,flexipage:availableForAllPageTypes"
+                access="global">
+
+    <aura:attribute name="accountWrapperList" type="List"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="slds-p-around_medium">
+        <aura:iteration items="{!v.accountWrapperList}" var="wrap">
+            <div class="slds-card slds-m-bottom_medium">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <span class="slds-text-heading_small">{!wrap.acc.Name}</span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+
+                <div class="slds-card__body slds-card__body_inner">
+                    <b>Contacts:</b>
+                    <aura:if isTrue="{!not(empty(wrap.contacts))}">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th style="width: 33%;">Name</th>
+                                    <th style="width: 33%;">Email</th>
+                                    <th style="width: 34%;">Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!wrap.contacts}" var="con">
+                                    <tr>
+                                        <td>{!con.Name}</td>
+                                        <td>{!con.Email}</td>
+                                        <td>{!con.Phone}</td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        <aura:set attribute="else">
+                            <p class="slds-p-left_medium slds-text-color_weak">No Contacts</p>
+                        </aura:set>
+                    </aura:if>
+                    <b class="slds-m-top_medium">Opportunities:</b>
+                    <aura:if isTrue="{!not(empty(wrap.opportunities))}">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th style="width: 33%;">Name</th>
+                                    <th style="width: 33%;">Stage</th>
+                                    <th style="width: 34%;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!wrap.opportunities}" var="opp">
+                                    <tr>
+                                        <td>{!opp.Name}</td>
+                                        <td>{!opp.StageName}</td>
+                                        <td>{!opp.Amount}</td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        <aura:set attribute="else">
+                            <p class="slds-p-left_medium slds-text-color_weak">No Opportunities</p>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+        </aura:iteration>
+    </div>
+</aura:component>

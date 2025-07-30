@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <lightning-card title="Select Account">
         <lightning-combobox 
             name="accounts"
@@ -7,5 +7,24 @@
             options={accountOptions}
             onchange={handleChange}>
         </lightning-combobox>
+    </lightning-card>
+</template> -->
+<template>
+    <lightning-card title="Select Account">
+        <div class="slds-p-around_medium">
+            <lightning-combobox 
+                name="accounts"
+                label="Accounts"
+                placeholder="Select an Account"
+                options={accountOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <template if:true={selectedAccount}>
+                <div class="slds-m-top_medium slds-p-around_small slds-box slds-theme_shade">
+                    <strong>Selected Account:</strong> {selectedAccount}
+                </div>
+            </template>
+        </div>
     </lightning-card>
 </template>

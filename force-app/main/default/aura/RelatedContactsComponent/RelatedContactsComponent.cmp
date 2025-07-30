@@ -1,0 +1,88 @@
+<aura:component controller="RelatedContactsController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="accountList" type="List"/>
+    <aura:attribute name="contactList" type="List"/>
+    <aura:attribute name="filteredContacts" type="List"/>
+    <aura:attribute name="searchTerm" type="String" default=""/>
+    <aura:attribute name="pageSize" type="Integer" default="5"/>
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+    <aura:attribute name="totalPages" type="Integer" default="1"/>
+    <aura:attribute name="totalContacts" type="Integer" default="0"/>
+    <aura:attribute name="displayRange" type="String" default=""/>
+    <aura:attribute name="accountSelected" type="Boolean" default="false"/>
+    
+    <div class="slds-card slds-p-around_medium">
+        <div class="slds-card__body">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label slds-text-heading_small">
+                    <b>Select Account</b>
+                </label>
+                <div class="slds-form-element__control">
+                    <lightning:select name="selectItem" label="" aura:id="ac" onchange="{!c.getContacts}" class="slds-m-bottom_small">
+                        <option value="">-- Select --</option>
+                        <aura:iteration items="{!v.accountList}" var="acc">
+                            <option label="{!acc.Name}" value="{!acc.Id}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            
+            <aura:if isTrue="{!v.accountSelected}">
+                <div>
+                    <div class="slds-form-element slds-m-top_medium">
+                        <label class="slds-form-element__label slds-text-heading_small">
+                            <b>Related Contacts</b>
+                        </label>
+                        <div class="slds-form-element__control">
+                            <lightning:input 
+                                type="search" 
+                                value="{!v.searchTerm}" 
+                                placeholder="Search here..." 
+                                onchange="{!c.handleSearch}"
+                                class="slds-m-bottom_small"/>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-m-top_medium">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col"><div class="slds-truncate"><b>NAME</b></div></th>
+                                    <th scope="col"><div class="slds-truncate"><b>PHONE</b></div></th>
+                                    <th scope="col"><div class="slds-truncate"><b>EMAIL</b></div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.filteredContacts}" var="con">
+                                    <tr>
+                                        <td>{!con.Name}</td>
+                                        <td>{!con.Phone}</td>
+                                        <td>{!con.Email}</td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        
+                        <div class="slds-m-top_medium slds-grid slds-grid_align-spread">
+                            <div class="slds-text-body_small" style="text-align: left;">
+                                Showing {!v.displayRange} From {!v.totalContacts}
+                            </div>
+                            <div>
+                                <lightning:buttonGroup>
+                                    <lightning:button 
+                                        label="Previous" 
+                                        disabled="{!v.currentPage == 1}" 
+                                        onclick="{!c.previousPage}"/>
+                                    <lightning:button 
+                                        label="Next" 
+                                        disabled="{!v.currentPage == v.totalPages || v.totalPages == 0}" 
+                                        onclick="{!c.nextPage}"/>
+                                </lightning:buttonGroup>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

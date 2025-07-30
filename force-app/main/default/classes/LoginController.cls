@@ -3,11 +3,22 @@ public class LoginController {
     public String password { get; set; }
 
     public PageReference login() {
-        if(username == 'admin' && password == 'admin123') {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, 'Login Successful'));
-        } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Invalid Credentials'));
+        try {
+            if (String.isBlank(username) || String.isBlank(password)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Username and password are required.'));
+                return null;
+            }
+
+            String startUrl = '/home/home.jsp';
+            PageReference pageRef = Site.login(username, password, startUrl);
+            if (pageRef == null) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Invalid username or password.'));
+                return null;
+            }
+            return pageRef;
+        } catch (Exception e) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Login Failed: ' + e.getMessage()));
+            return null;
         }
-        return null;
     }
 }

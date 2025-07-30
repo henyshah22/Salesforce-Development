@@ -1,7 +1,6 @@
 public with sharing class AccountHelper {
 
     @AuraEnabled(cacheable=true)
-    // allows LWC to call this method using @wire 
     public static List<Account> getAccounts() {
         return [SELECT Id, Name FROM Account];
     }

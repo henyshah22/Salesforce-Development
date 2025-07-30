@@ -1,0 +1,110 @@
+<aura:component controller="WizardApexController" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:attribute name="currentStep" type="Integer" default="1"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="accountName" type="String"/>
+    <aura:attribute name="accountIndustry" type="String"/>
+    <aura:attribute name="accountPhone" type="String"/>
+    <aura:attribute name="accountWebsite" type="String"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="contactFirstName" type="String"/>
+    <aura:attribute name="contactLastName" type="String"/>
+    <aura:attribute name="contactEmail" type="String"/>
+    <aura:attribute name="contactPhone" type="String"/>
+    <aura:attribute name="contactId" type="String"/>
+    <aura:attribute name="eventStartDateTime" type="DateTime"/>
+    <aura:attribute name="eventEndDateTime" type="DateTime"/>
+    <aura:attribute name="eventLocation" type="String"/>
+
+    <div class="slds-box slds-theme_default" style="width: 80%; max-width: 600px; margin: 0 auto;">
+        <div class="slds-progress slds-progress_horizontal slds-m-bottom_large">
+            <ol class="slds-progress__list">
+                <li class="slds-progress__item slds-is-active" aura:id="step1">
+                    <button class="slds-progress__marker" data-step="1"></button>
+                </li>
+                <li class="slds-progress__item" aura:id="step2">
+                    <button class="slds-progress__marker" data-step="2"></button>
+                </li>
+                <li class="slds-progress__item" aura:id="step3">
+                    <button class="slds-progress__marker" data-step="3"></button>
+                </li>
+            </ol>
+            <div class="slds-progress-bar slds-progress-bar_x-small" aria-valuemin="1" aria-valuemax="3" aria-valuenow="{!v.currentStep}">
+                <span class="slds-progress-bar__value" style="{!'width: ' + ((v.currentStep - 1)/2) * 100 + '%;'}">
+                    <span class="slds-assistive-text">Progress: {!v.currentStep} of 3</span>
+                </span>
+            </div>
+        </div>
+
+        <h2 class="slds-text-heading_medium slds-m-bottom_medium slds-text-align_center">
+            <aura:if isTrue="{!v.currentStep == 1}">
+                Create Account
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.currentStep == 2}">
+                        Create Contact
+                        <aura:set attribute="else">
+                            Create Event
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+        </h2>
+
+
+        <aura:if isTrue="{!v.currentStep == 1}">
+            <div>
+                <lightning:input label="Account Name" value="{!v.accountName}" required="true"/>
+                <lightning:select label="Industry" value="{!v.accountIndustry}" required="true">
+                    <option value="">--Select--</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Healthcare">Healthcare</option>
+                </lightning:select>
+                <lightning:input label="Phone" value="{!v.accountPhone}" type="tel"/>
+                <lightning:input label="Website" value="{!v.accountWebsite}" type="url"/>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentStep == 2}">
+            <div>
+                <lightning:input label="First Name" value="{!v.contactFirstName}" required="true"/>
+                <lightning:input label="Last Name" value="{!v.contactLastName}" required="true"/>
+                <lightning:input label="Email" value="{!v.contactEmail}" type="email" required="true"/>
+                <lightning:input label="Phone" value="{!v.contactPhone}" type="tel"/>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentStep == 3}">
+            <div>
+                <lightning:input label="Subject" value="Wizard Task" disabled="true"/>
+                <lightning:input label="Start Date &amp; Time" value="{!v.eventStartDateTime}" type="datetime" required="true"/>
+                <lightning:input label="End Date &amp; Time" value="{!v.eventEndDateTime}" type="datetime" required="true"/>
+                <lightning:input label="Location" value="{!v.eventLocation}"/>
+            </div>
+        </aura:if>
+
+
+        <div class="slds-m-top_large slds-clearfix">
+            <div class="slds-float_left">
+                <lightning:button label="Previous" onclick="{!c.previous}" variant="neutral" disabled="{!v.currentStep == 1 || v.isLoading}"/>
+            </div>
+            <div class="slds-float_right">
+                <aura:if isTrue="{!v.currentStep != 3}">
+                    <lightning:button label="Next" onclick="{!c.next}" variant="brand" disabled="{!v.isLoading}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.currentStep == 3}">
+                    <lightning:button label="Save" onclick="{!c.save}" variant="brand" disabled="{!v.isLoading}"/>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.isLoading}">
+        <div class="slds-spinner_container">
+            <div class="slds-spinner slds-spinner_medium" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

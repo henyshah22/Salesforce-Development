@@ -1,29 +1,44 @@
 <template>
     <lightning-card title="Related Records">
         <template if:true={accountId}>
-            <div class="slds-m-top_medium">
-                <strong>Contacts:</strong>
-                <template if:true={contacts}>
-                    <ul>
+            <lightning-layout multiple-rows class="slds-m-around_medium">
+                
+                <lightning-layout-item size="6" padding="around-small">
+                    <h2 class="slds-text-heading_small slds-m-bottom_small"><strong>Contacts:</strong></h2>
+                    <template if:true={contacts}>
                         <template for:each={contacts} for:item="contact">
-                            <li key={contact.Id}>{contact.Name}</li>
+                            <div 
+                                key={contact.Id} 
+                                style="background:#ffffff; border:1px solid #d8dde6; border-radius:8px; padding:1rem; margin-bottom:1rem; box-shadow:0 2px 4px rgba(0,0,0,0.06);">
+                                <lightning-tile label={contact.Name} type="media">
+                                    <lightning-icon slot="media" icon-name="standard:contact" alternative-text="Contact" size="medium"></lightning-icon>
+                                    <p class="slds-truncate" title={contact.Email}>{contact.Email}</p>
+                                </lightning-tile>
+                            </div>
                         </template>
-                    </ul>
-                </template>
-            </div>
-            <div class="slds-m-top_medium">
-                <strong>Opportunities:</strong>
-                <template if:true={opportunities}>
-                    <ul>
+                    </template>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="6" padding="around-small">
+                    <h2 class="slds-text-heading_small slds-m-bottom_small"><strong>Opportunities:</strong></h2>
+                    <template if:true={opportunities}>
                         <template for:each={opportunities} for:item="opp">
-                            <li key={opp.Id}>{opp.Name}</li>
+                            <div 
+                                key={opp.Id} 
+                                style="background:#ffffff; border:1px solid #d8dde6; border-radius:8px; padding:1rem; margin-bottom:1rem; box-shadow:0 2px 4px rgba(0,0,0,0.06);">
+                                <lightning-tile label={opp.Name} type="media">
+                                    <lightning-icon slot="media" icon-name="standard:opportunity" alternative-text="Opportunity" size="medium"></lightning-icon>
+                                </lightning-tile>
+                            </div>
                         </template>
-                    </ul>
-                </template>
-            </div>
+                    </template>
+                </lightning-layout-item>
+
+            </lightning-layout>
         </template>
+
         <template if:false={accountId}>
-            <p>select an account</p>
+            <p class="slds-p-around_medium">Please select an Account to view related Contacts and Opportunities.</p>
         </template>
     </lightning-card>
 </template>
