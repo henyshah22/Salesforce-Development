@@ -1,0 +1,66 @@
+<aura:component controller="dragAndDrop" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:attribute name="accountName1" type="String" />
+    <aura:attribute name="accountName2" type="String" />
+    <aura:attribute name="contacts1" type="Contact[]" />
+    <aura:attribute name="contacts2" type="Contact[]" />
+    <aura:attribute name="contactCount1" type="Integer" />
+    <aura:attribute name="contactCount2" type="Integer" />
+
+    <lightning:layout multipleRows="true" class="slds-p-around_medium">
+        <lightning:layoutItem size="6" padding="around-small">
+            <lightning:card title="Section 1 - Search Account">
+                <div class="slds-p-around_medium">
+                    <lightning:input label="Account Name" value="{!v.accountName1}" placeholder="search account"/>
+                    <lightning:button label="Search" onclick="{!c.searchContacts1}" variant="brand" class="slds-m-top_small"/>
+                </div>
+
+                <aura:if isTrue="{!not(empty(v.contacts1))}">
+                    <div class="slds-p-around_medium dropzone" ondrop="{!c.handleDropToSection1}" ondragover="{!c.allowDrop}">
+                        <p class="slds-text-title_bold">Number of Contacts: {!v.contactCount1}</p>
+                        <lightning:layout multipleRows="true">
+                            <aura:iteration items="{!v.contacts1}" var="contact">
+                                <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                    <div class="slds-box slds-box_x-small slds-grid slds-align_absolute-center slds-m-around_x-small"
+                                         draggable="true"
+                                         ondragstart="{!c.handleDragStart}"
+                                         data-contactid="{!contact.Id}">
+                                        <lightning:icon iconName="standard:contact" size="small" class="slds-m-right_small"/>
+                                        <p>{!contact.Name}</p>
+                                    </div>
+                                </lightning:layoutItem>
+                            </aura:iteration>
+                        </lightning:layout>
+                    </div>
+                </aura:if>
+            </lightning:card>
+        </lightning:layoutItem>
+
+        <lightning:layoutItem size="6" padding="around-small">
+            <lightning:card title="Section 2 - Search Account">
+                <div class="slds-p-around_medium">
+                    <lightning:input label="Account Name" value="{!v.accountName2}" placeholder="search account"/>
+                    <lightning:button label="Search" onclick="{!c.searchContacts2}" variant="brand" class="slds-m-top_small"/>
+                </div>
+
+                <aura:if isTrue="{!not(empty(v.contacts2))}">
+                    <div class="slds-p-around_medium dropzone" ondrop="{!c.handleDropToSection2}" ondragover="{!c.allowDrop}">
+                        <p class="slds-text-title_bold">Number of Contacts: {!v.contactCount2}</p>
+                        <lightning:layout multipleRows="true">
+                            <aura:iteration items="{!v.contacts2}" var="contact">
+                                <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                    <div class="slds-box slds-box_x-small slds-grid slds-align_absolute-center slds-m-around_x-small"
+                                         draggable="true"
+                                         ondragstart="{!c.handleDragStart}"
+                                         data-contactid="{!contact.Id}">
+                                        <lightning:icon iconName="standard:contact" size="small" class="slds-m-right_small"/>
+                                        <p>{!contact.Name}</p>
+                                    </div>
+                                </lightning:layoutItem>
+                            </aura:iteration>
+                        </lightning:layout>
+                    </div>
+                </aura:if>
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

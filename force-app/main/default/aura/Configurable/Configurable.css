@@ -1,0 +1,13 @@
+.THIS.Container {
+    padding: 20px;
+    text-align: center;
+}
+
+.THIS .Image {
+    max-width: 100%;
+    height: auto;
+}
+
+.THIS .descriptionText {
+    margin-top: 15px;
+}

@@ -1,0 +1,18 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="uploadedImage" type="String" />
+
+    <aura:handler name="imageUploaded" event="c:imageUploadedEvent" action="{!c.handleImageUpload}" />
+
+    <div class="slds-card slds-p-around_medium">
+        <header class="slds-text-heading_medium slds-m-bottom_medium">Image Upload and Preview</header>
+
+        <c:fileUploaderComponent />
+
+        <aura:if isTrue="{!not(empty(v.uploadedImage))}">
+            <div class="slds-m-top_medium">
+                <p class="slds-m-bottom_x-small">Preview:</p>
+                <img src="{!'data:image/png;base64,' + v.uploadedImage}" width="300" class="slds-box" />
+            </div>
+        </aura:if>
+    </div>
+</aura:component>
