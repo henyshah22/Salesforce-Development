@@ -1,12 +1,10 @@
 ({
     searchContacts1: function(component, event, helper) {
-        const accountName = component.get("v.accountName1");
-        helper.fetchContacts(component, accountName, "contacts1", "contactCount1");
+        helper.fetchContactsForSection1(component);
     },
 
     searchContacts2: function(component, event, helper) {
-        const accountName = component.get("v.accountName2");
-        helper.fetchContacts(component, accountName, "contacts2", "contactCount2");
+        helper.fetchContactsForSection2(component);
     },
 
     allowDrop: function(component, event, helper) {
@@ -21,18 +19,18 @@
     handleDropToSection1: function(component, event, helper) {
         event.preventDefault();
         const contactId = event.dataTransfer.getData("contactId");
-        const accountName = component.get("v.accountName1");
-        helper.updateContactAccount(component, contactId, accountName, "contacts1", "contactCount1");
-        const accountName2 = component.get("v.accountName2");
-        helper.fetchContacts(component, accountName2, "contacts2", "contactCount2");
+        const accountId = event.currentTarget.dataset.accountid;
+
+        helper.updateContactAccountForSection1(component, contactId, accountId);
+        helper.fetchContactsForSection2(component);
     },
 
     handleDropToSection2: function(component, event, helper) {
         event.preventDefault();
         const contactId = event.dataTransfer.getData("contactId");
-        const accountName = component.get("v.accountName2");
-        helper.updateContactAccount(component, contactId, accountName, "contacts2", "contactCount2");
-        const accountName1 = component.get("v.accountName1");
-        helper.fetchContacts(component, accountName1, "contacts1", "contactCount1");
+        const accountId = event.currentTarget.dataset.accountid;
+
+        helper.updateContactAccountForSection2(component, contactId, accountId);
+        helper.fetchContactsForSection1(component);
     }
-})
+});

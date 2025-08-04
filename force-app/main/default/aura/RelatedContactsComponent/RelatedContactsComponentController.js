@@ -5,7 +5,7 @@
     
     getContacts: function(component, event, helper) {
         var accountId = component.find("ac").get("v.value");
-        component.set("v.accountSelected", !accountId);
+        component.set("v.accountSelected", !!accountId);
         helper.getContactDetails(component);
     },
     
