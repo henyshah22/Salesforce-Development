@@ -14,11 +14,9 @@ public with sharing class dragAndDrop {
     @AuraEnabled
     public static List<AccountWrapper> getContactsForMatchingAccounts(String accountName) {
         List<AccountWrapper> wrapperList = new List<AccountWrapper>();
-
         if (String.isBlank(accountName)) {
             return wrapperList;
         }
-
         List<Account> matchedAccounts = [SELECT Id, Name FROM Account WHERE Name LIKE :('%' + accountName + '%') LIMIT 10];
         List<Contact> allContacts = [SELECT Id, Name, AccountId FROM Contact WHERE AccountId IN :matchedAccounts];
 
@@ -30,11 +28,9 @@ public with sharing class dragAndDrop {
                     contactsForThisAccount.add(con);
                 }
             }
-
             AccountWrapper wrap = new AccountWrapper(acc.Name, acc.Id, contactsForThisAccount);
             wrapperList.add(wrap);
         }
-
         return wrapperList;
     }
 
